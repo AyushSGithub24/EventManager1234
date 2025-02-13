@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
+import { useAuth } from '../Context/AuthContext';
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -10,7 +11,7 @@ export default function Login() {
   });
 
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const {success, setSuccess,login} = useAuth();
   const navigate = useNavigate();
 
   // Client-side validation
@@ -55,9 +56,10 @@ export default function Login() {
       }
 
       const data = await response.json();
-      localStorage.setItem('authToken', data.jwtToken);
-      setSuccess('Login successful!');
-      setTimeout(() => navigate('/dashboard'), 1000);
+      // localStorage.setItem('authToken', data.jwtToken);
+      // setSuccess('Login successful!');
+      login(data.jwtToken,data.email,data.name)
+      setTimeout(() => navigate('/'), 1000);
     } catch (err) {
       setError(err.message);
     }

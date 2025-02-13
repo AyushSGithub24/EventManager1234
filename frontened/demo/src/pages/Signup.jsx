@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 
@@ -12,7 +12,7 @@ export default function Signup() {
 
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-
+  const navigate=useNavigate();
   // Client-side validation
   const validateForm = () => {
     const { name, email, password } = formData;
@@ -57,6 +57,8 @@ export default function Signup() {
 
       setSuccess('Signup successful! Please log in.');
       setFormData({ name: '', email: '', password: '' });
+      navigate("/login")
+      
     } catch (err) {
       setError(err.message);
     }
